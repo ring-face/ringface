@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: ringface-db
+    volumes:
+      - ./mongodb/db:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=ringfacedb
+    ports:
+      - 27017-27019:27017-27019
+  
+  connector:
+    image: ringface/connector
+    container_name: ringface-connector
+    volumes:
+      - ./data:/data
+      - ./oauth-autorization.json:/app/oauth-authorization.json
+    environment: 
+      - OAUTH_FILE=/app/oauth-authorization.json
+      - DATA_DIR=/data
+    ports:
+      - 5000:5000
+
+  classifier:
+    image: ringface/classifier
+    container_name: ringface-classifier
+    volumes:
+      - ./data:/data
+    ports:
+      - 5001:5001
+    environment: 
+      - DATA_DIR=/data
+
+  bff:
+    image: ringface/bff:latest
+    container_name: ringface-bff
+    volumes:
+      - ./data:/data
+    ports:
+      - 3333:3333
+    environment: 
+      - DATA_DIR=/data
+      - MONGO_HOST=ringface-db
+      - MONGO_PORT=27017
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - CONNECTOR_HOST=ringface-connector
+      - CLASSIFIER_HOST=ringface-classifier
+
+
+    
+  
