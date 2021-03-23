@@ -51,6 +51,10 @@ services:
       - CONNECTOR_HOST=ringface-connector
       - CLASSIFIER_HOST=ringface-classifier
 
-
+  nginx:
+    image: ringface/nginx:latest
+    container_name: ringface-nginx
+    ports:
+      - 4300:80
     
   
