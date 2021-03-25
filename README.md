@@ -1,5 +1,5 @@
 # Run it all
-![Ringface2](https://user-images.githubusercontent.com/7328002/112138818-3f84e880-8bd2-11eb-9ded-2e17f2d5da74.gif)
+![ringface](https://user-images.githubusercontent.com/7328002/112440498-adecb680-8d4a-11eb-9c36-722062f4c754.gif)
 
 
 ## Attach your own doorbell
