@@ -14,7 +14,7 @@ services:
       - 27017-27019:27017-27019
   
   connector:
-    image: ringface/connector
+    image: ringface/connector:${VERSION}
     container_name: ringface-connector
     volumes:
       - ./data:/data
@@ -26,7 +26,7 @@ services:
       - 5000:5000
 
   classifier:
-    image: ringface/classifier
+    image: ringface/classifier:${VERSION}
     container_name: ringface-classifier
     volumes:
       - ./data:/data
@@ -36,7 +36,7 @@ services:
       - DATA_DIR=/data
 
   bff:
-    image: ringface/bff:latest
+    image: ringface/bff:${VERSION}
     container_name: ringface-bff
     volumes:
       - ./data:/data
@@ -52,7 +52,7 @@ services:
       - CLASSIFIER_HOST=ringface-classifier
 
   nginx:
-    image: ringface/nginx:latest
+    image: ringface/nginx:${VERSION}
     container_name: ringface-nginx
     ports:
       - 4300:80
