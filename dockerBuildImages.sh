@@ -10,11 +10,6 @@ if [ -z ${1+x} ]
   ../ringface-classifier/dockerImageBuild.sh $1
   ../ringface-connector/dockerImagesBuild.sh $1
 
-  echo "pushin version '$1'"
-  ../ringface-gui/dockerImagesPush.sh  $1
-  ../ringface-classifier/dockerImagePush.sh $1
-  ../ringface-connector/dockerImagesPush.sh $1
-
   echo "replacing the .env to '$1'"
   sed -i '' '/VERSION/d' ./.env
   echo "VERSION=$1" >> ./.env

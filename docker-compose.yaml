@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  mongodb:
+  ringface-db:
     image: mongo
     container_name: ringface-db
     volumes:
@@ -13,7 +13,7 @@ services:
     ports:
       - 27017-27019:27017-27019
   
-  connector:
+  ringface-connector:
     image: ringface/connector:${VERSION}
     container_name: ringface-connector
     volumes:
@@ -25,7 +25,7 @@ services:
     ports:
       - 5000:5000
 
-  classifier:
+  ringface-classifier:
     image: ringface/classifier:${VERSION}
     container_name: ringface-classifier
     volumes:
@@ -35,9 +35,13 @@ services:
     environment: 
       - DATA_DIR=/data
 
-  bff:
+  ringface-bff:
     image: ringface/bff:${VERSION}
     container_name: ringface-bff
+    depends_on:
+      - ringface-db
+      - ringface-classifier
+      - ringface-connector
     volumes:
       - ./data:/data
     ports:
@@ -50,11 +54,29 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - CONNECTOR_HOST=ringface-connector
       - CLASSIFIER_HOST=ringface-classifier
+    #poll for new ring events
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.poll-ring-events.schedule: "@every 1m"
+      ofelia.job-exec.poll-ring-events.command: "curl localhost:3333/api/poll-and-process/today"      
 
-  nginx:
+  ringface-nginx:
     image: ringface/nginx:${VERSION}
     container_name: ringface-nginx
+    depends_on:
+      - ringface-bff
     ports:
       - 4300:80
+
+  # scheduling facitly
+  ringface-scheduler:
+    image: mcuadros/ofelia:latest
+    container_name: ringface-scheduler
+    depends_on:
+      - ringface-bff
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
     
   
