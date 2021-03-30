@@ -34,6 +34,11 @@ services:
       - 5001:5001
     environment: 
       - DATA_DIR=/data
+      - PARALLELISM=4 # how many frames should be processed in parallel (CPU parallelism)
+      - EACH_FRAME=2 # 2 means each second frame is processed
+      - MAX_FRAMES=100 # dont process more than the first x frames of the video
+      - STOP_AFTER_EMPTY_FRAMES=10 # stop when 10 subsequent frames had no face 
+      - MIN_TRUMBNAIL_SIZE_IN_PX=100 # min face size to consider for training
 
   ringface-bff:
     image: ringface/bff:${VERSION}
