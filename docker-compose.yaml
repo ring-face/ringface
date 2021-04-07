@@ -18,7 +18,7 @@ services:
     container_name: ringface-connector
     volumes:
       - ./data:/data
-      - ./oauth-autorization.json:/app/oauth-authorization.json
+      - ./oauth-authorization.json:/app/oauth-authorization.json
     environment: 
       - OAUTH_FILE=/app/oauth-authorization.json
       - DATA_DIR=/data
