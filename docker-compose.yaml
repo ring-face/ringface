@@ -62,7 +62,7 @@ services:
     #poll for new ring events
     labels:
       ofelia.enabled: "true"
-      ofelia.job-exec.poll-ring-events.schedule: "@every 1m"
+      ofelia.job-exec.poll-ring-events.schedule: "@every 10m"
       ofelia.job-exec.poll-ring-events.command: "curl localhost:3333/api/poll-and-process/today"      
 
   ringface-nginx:
