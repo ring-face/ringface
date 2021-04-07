@@ -10,8 +10,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
       - MONGO_INITDB_DATABASE=ringfacedb
-    ports:
-      - 27017-27019:27017-27019
+    # ports:
+    #   - 27017-27019:27017-27019
   
   ringface-connector:
     image: ringface/connector:${VERSION}
@@ -22,16 +22,16 @@ services:
     environment: 
       - OAUTH_FILE=/app/oauth-authorization.json
       - DATA_DIR=/data
-    ports:
-      - 5000:5000
+    # ports:
+    #   - 5000:5000
 
   ringface-classifier:
     image: ringface/classifier:${VERSION}
     container_name: ringface-classifier
     volumes:
       - ./data:/data
-    ports:
-      - 5001:5001
+    # ports:
+    #   - 5001:5001
     environment: 
       - DATA_DIR=/data
       - PARALLELISM=4 # how many frames should be processed in parallel (CPU parallelism)
@@ -49,8 +49,8 @@ services:
       - ringface-connector
     volumes:
       - ./data:/data
-    ports:
-      - 3333:3333
+    # ports:
+    #   - 3333:3333
     environment: 
       - DATA_DIR=/
       - MONGO_HOST=ringface-db
