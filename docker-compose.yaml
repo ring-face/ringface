@@ -35,8 +35,9 @@ services:
     environment: 
       - DATA_DIR=/data
       - PARALLELISM=4 # how many frames should be processed in parallel (CPU parallelism)
+      - MIN_FRAMES=50 # process the first 50 frames each
       - EACH_FRAME=2 # 2 means each second frame is processed
-      - MAX_FRAMES=100 # dont process more than the first x frames of the video
+      - MAX_FRAMES=150 # dont process more than the first 150 frames of the video (ring FPS is 15)
       - STOP_AFTER_EMPTY_FRAMES=10 # stop when 10 subsequent frames had no face 
       - MIN_TRUMBNAIL_SIZE_IN_PX=100 # min face size to consider for training
 
@@ -59,12 +60,12 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - CONNECTOR_HOST=ringface-connector
       - CLASSIFIER_HOST=ringface-classifier
-      # - IFTTT_EVENT=ringface # your IFTTT event name, if you configured IFTTT
-      # - IFTTT_KEY=xxx-rDjaUXhasgdtAWjPjr9_llWswPy_r991i # your IFTTT maker key
+      - IFTTT_EVENT=${IFTTT_EVENT} # your IFTTT event name, if you configured IFTTT
+      - IFTTT_KEY=${IFTTT_KEY} # your IFTTT maker key
     #poll for new ring events
     labels:
       ofelia.enabled: "true"
-      ofelia.job-exec.poll-ring-events.schedule: "@every 10m"
+      ofelia.job-exec.poll-ring-events.schedule: "@every 30m"
       ofelia.job-exec.poll-ring-events.command: "curl localhost:3333/api/poll-and-process/today"      
 
   ringface-nginx:
