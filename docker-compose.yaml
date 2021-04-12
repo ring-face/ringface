@@ -59,6 +59,8 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - CONNECTOR_HOST=ringface-connector
       - CLASSIFIER_HOST=ringface-classifier
+      # - IFTTT_EVENT=ringface # your IFTTT event name, if you configured IFTTT
+      # - IFTTT_KEY=xxx-rDjaUXhasgdtAWjPjr9_llWswPy_r991i # your IFTTT maker key
     #poll for new ring events
     labels:
       ofelia.enabled: "true"
