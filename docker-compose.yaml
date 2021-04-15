@@ -34,7 +34,7 @@ services:
     #   - 5001:5001
     environment: 
       - DATA_DIR=/data
-      - PARALLELISM=4 # how many frames should be processed in parallel (CPU parallelism)
+      - PARALLELISM=${PARALLELISM} # how many frames should be processed in parallel (CPU parallelism)
       - MIN_FRAMES=50 # process the first 50 frames each
       - EACH_FRAME=2 # 2 means each second frame is processed
       - MAX_FRAMES=150 # dont process more than the first 150 frames of the video (ring FPS is 15)
@@ -65,7 +65,7 @@ services:
     #poll for new ring events
     labels:
       ofelia.enabled: "true"
-      ofelia.job-exec.poll-ring-events.schedule: "@every 30m"
+      ofelia.job-exec.poll-ring-events.schedule: "@every 4h"
       ofelia.job-exec.poll-ring-events.command: "curl localhost:3333/api/poll-and-process/today"      
 
   ringface-nginx:

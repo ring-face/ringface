@@ -8,8 +8,6 @@ if [ -z ${1+x} ]
   else
 
   ./dockerBuildImages.sh $1
-  git commit -a -m "release $1"
-  git push
 
   ./dockerPushImages.sh $1
 
