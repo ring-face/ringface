@@ -3,3 +3,5 @@ data
 mongodb
 .DS_Store
 oauth-authorization.json
+
+.env
